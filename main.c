@@ -18,26 +18,30 @@ int is_ascii(char key)
     return key >= 32 && key <= 126;
 }
 
+void make_output(char *input_buffer, int *curr_col, int *curr_row, int screen_col_max, int file_size)
+{
+    for (int i = 0; i < BUFF_SIZE && i < file_size; i++) {
+        if (*curr_col >= screen_col_max - 1) {
+            go_to_next_row(curr_row, curr_col);
+        }
+        move(curr_row, curr_col);
+        addch(input_buffer[i]);
+        curr_col++;
+    }
+}
+
 int main(int argc, char **argv)
 {
     FILE *file;  
     int screen_row_max, screen_col_max;
-    int output_screen_row, output_screen_col;
     int key, curr_col, curr_row;
     int curr_buffer_pos;
     int file_size;
 
-    file = fopen(argv[1], "r");
-    if (!file) {
-        perror(argv[1]);
-        exit(1);
-    }
+    file = open_for_read(argv[1]);
 
     initscr();
     getmaxyx(stdscr, screen_row_max, screen_col_max);
-
-    output_screen_row = screen_row_max - 2;
-    output_screen_col = screen_col_max - 2;
 
     char input_buffer[BUFF_SIZE];
     /* to restore original input using BACKSPACE_KEY */
@@ -54,6 +58,9 @@ int main(int argc, char **argv)
     move(curr_row, curr_col);
 
 /*  make ouput  */
+    make_output(input_buffer, &curr_col, &curr_row, &screen_col_max, file_size);
+
+#if 0
     for (int i = 0; i < BUFF_SIZE && i < file_size; i++) {
         if (curr_col >= screen_col_max - 1) {
             go_to_next_row(&curr_row, &curr_col);
@@ -62,6 +69,7 @@ int main(int argc, char **argv)
         addch(input_buffer[i]);
         curr_col++;
     }
+#endif
 
     curr_col = 1;
     curr_row = 1;

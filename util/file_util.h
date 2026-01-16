@@ -4,4 +4,7 @@
 
 int get_file_size(FILE *file);
     
+FILE *open_for_read(const char* path);
+
 #endif
+
