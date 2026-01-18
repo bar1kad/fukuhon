@@ -15,6 +15,7 @@ void go_to_next_row(int *curr_row, int *curr_col)
 
 int is_ascii(char key)
 {
+    //just a test again
     return key >= 32 && key <= 126;
 }
 
