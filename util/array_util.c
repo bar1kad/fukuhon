@@ -1,5 +1,4 @@
 #include "array_util.h"
-#include <stdio.h>
 
 void arr_copy(char *from, char *to, int size)
 {
